@@ -3,6 +3,31 @@
 @import "./_styles/reset.scss";
 @import "./_styles/breakpoints.scss";
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: var(--header-heght);
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+  }
+
+  @supports (-moz-appearance: none) {
+    scrollbar-color: var(--primary-color) var(--bg-color);
+    scrollbar-width: thin;
+  }
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);

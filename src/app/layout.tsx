@@ -5,15 +5,17 @@ import { FluidCanvasBg } from "@/features/FluidCanvasBg";
 import Head from "next/head";
 import clsx from "clsx";
 import Header from "@/widgets/Header";
+import { AppContext } from "./_providers";
 
 const roboto = Roboto_Mono({
   subsets: ["cyrillic", "latin"],
   variable: "--roboto",
+  preload: true,
 });
 
 export const metadata: Metadata = {
   title: "Дмитрий Романенков",
-  description: "Сайт - портфолио",
+  description: "Сайт - визитка",
 };
 
 export default function RootLayout({
@@ -29,10 +31,12 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
       </Head>
-      <body className={clsx(roboto.className)}>
-        <Header />
-        <FluidCanvasBg>{children}</FluidCanvasBg>
-      </body>
+      <AppContext>
+        <body className={clsx(roboto.className)}>
+          <Header />
+          <FluidCanvasBg>{children}</FluidCanvasBg>
+        </body>
+      </AppContext>
     </html>
   );
 }

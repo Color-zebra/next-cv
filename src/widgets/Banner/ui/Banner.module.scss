@@ -1,20 +1,26 @@
 @import "@/app/_styles/mixins";
 
 .wrapper {
-}
-
-.content {
   padding-top: 70px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
+  @include respond-to("laptop") {
+    padding-top: 0;
+    @include full-height();
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 70px;
+    scroll-snap-align: start;
+  }
 }
 
 .title {
   display: flex;
   flex-direction: column;
-  @include adaptiv-value("font-size", 50, 21);
+  @include adaptiv-value("font-size", 45, 21);
   @include adaptiv-value("max-width", 700, 320);
   margin: 0 auto 50px;
   text-transform: uppercase;
@@ -22,6 +28,10 @@
   color: var(--text-color);
   gap: 10px;
   font-weight: 500;
+
+  @include respond-to("laptop") {
+    @include adaptiv-value("font-size", 45, 0);
+  }
 
   &__accent {
     color: var(--primary-color);
@@ -41,7 +51,7 @@
     position: absolute;
     z-index: 0;
     left: 0;
-    bottom: -50px;
+    bottom: -60px;
     width: 100%;
     height: 50px;
     background-color: red;
@@ -59,12 +69,17 @@
   width: 100%;
   z-index: 2;
   max-width: 500px;
-  overflow: hidden;
   height: 300px;
   margin: 0 auto;
+  overflow: hidden;
   will-change: transform;
   animation: open 1s ease;
   animation-fill-mode: forwards;
+
+  @include respond-to("laptopL") {
+    max-width: 600px;
+    height: 350px;
+  }
 }
 
 @keyframes open {
