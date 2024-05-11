@@ -1,0 +1,82 @@
+@import "@/app/_styles/mixins";
+
+.wrapper {
+}
+
+.content {
+  padding-top: 70px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  @include adaptiv-value("font-size", 50, 21);
+  @include adaptiv-value("max-width", 700, 320);
+  margin: 0 auto 50px;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  gap: 10px;
+  font-weight: 500;
+
+  &__accent {
+    color: var(--primary-color);
+    font-weight: 800;
+    text-shadow:
+      0 0 10px black,
+      0 0 10px black,
+      0 0 10px black,
+      0 0 10px black;
+  }
+}
+
+.code-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    bottom: -50px;
+    width: 100%;
+    height: 50px;
+    background-color: red;
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      var(--primary-color) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    background-size: 100% 100%;
+  }
+}
+
+.code {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+  max-width: 500px;
+  overflow: hidden;
+  height: 300px;
+  margin: 0 auto;
+  will-change: transform;
+  animation: open 1s ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes open {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
