@@ -1,3 +1,39 @@
-import s from "./Header.module.scss";
+"use client";
 
-export const Header = () => <div className={s.wrapper}></div>;
+import Link from "next/link";
+import s from "./Header.module.scss";
+import { useState } from "react";
+import clsx from "clsx";
+import { menuList } from "../model";
+
+export const Header = () => {
+  const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
+
+  return (
+    <header className={s.wrapper}>
+      <nav className={s.content}>
+        <Link href={"/"} className={s.logo}>
+          &lt;<span className={s.logo__inner}>Logo</span>/&gt;
+        </Link>
+        <ul className={clsx(s.menu, isBurgerOpen && s.menu_open)}>
+          {menuList.map(({ name, url }) => (
+            <li className={s.menu__item} key={name}>
+              <Link className={s.menu__link} href={url}>
+                {name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <button
+          className={clsx(s.burger, isBurgerOpen && s.burger_open)}
+          onClick={() => setIsBurgerOpen((prev) => !prev)}
+        >
+          <div className={s.burger__line} />
+          <div className={s.burger__line} />
+          <div className={s.burger__line} />
+          <span>Бургер-меню</span>
+        </button>
+      </nav>
+    </header>
+  );
+};

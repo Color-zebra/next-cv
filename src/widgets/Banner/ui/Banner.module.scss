@@ -19,18 +19,14 @@
   margin: 0 auto 50px;
   text-transform: uppercase;
   text-align: center;
-  color: white;
+  color: var(--text-color);
   gap: 10px;
   font-weight: 500;
 
   &__accent {
     color: var(--primary-color);
     font-weight: 800;
-    text-shadow:
-      0 0 10px black,
-      0 0 10px black,
-      0 0 10px black,
-      0 0 10px black;
+    @include shadow-text;
   }
 }
 

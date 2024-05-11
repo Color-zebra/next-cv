@@ -4,5 +4,6 @@
 @import "./_styles/breakpoints.scss";
 
 body {
-  background-color: black;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }

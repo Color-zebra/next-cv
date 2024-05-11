@@ -28,3 +28,11 @@ $maxWidthContainer: 1200;
     }
   }
 }
+
+@mixin shadow-text() {
+  text-shadow:
+    0 0 10px var(--bg-color),
+    0 0 10px var(--bg-color),
+    0 0 10px var(--bg-color),
+    0 0 10px var(--bg-color);
+}
