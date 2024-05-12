@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import "./globals.scss";
 import { FluidCanvasBg } from "@/features/FluidCanvasBg";
-import Head from "next/head";
 import clsx from "clsx";
 import Header from "@/widgets/Header";
 import { AppContext } from "./_providers";
+import { cookies } from "next/headers";
 
 const roboto = Roboto_Mono({
   subsets: ["cyrillic", "latin"],
@@ -23,15 +23,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const theme = cookieStore.get("theme");
   return (
-    <html lang="en">
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-        />
-      </Head>
-      <AppContext>
+    <html lang="ru" data-theme={theme?.value ?? "dark"}>
+      <AppContext initialValues={{ theme: theme?.value }}>
         <body className={clsx(roboto.className)}>
           <Header />
           <FluidCanvasBg>{children}</FluidCanvasBg>

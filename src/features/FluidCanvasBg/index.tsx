@@ -5,6 +5,7 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
 } from "react";
 
@@ -12,37 +13,29 @@ import s from "./FluidCanvasBg.module.scss";
 import webGLFluidEnhanced from "webgl-fluid-enhanced";
 import { passMouseEvent } from "@/shared/utils/passMouseEvent";
 import clsx from "clsx";
+import { useTheme } from "@/shared/hooks/useTheme";
+import { useTouch } from "@/shared/hooks/useTouch";
+import { getFluidColors } from "@/shared/libs/getFluidColors";
+import { getFluidTouchOptions } from "@/shared/libs/getFluidTouchOptions";
 
-// const FLUID_CONFIG = {
-//   PRESSURE: 0.1,
-//   SUNRAYS: true,
-//   DENSITY_DISSIPATION: 10,
-//   CURL: 30,
-//   COLOR_PALETTE: ["#0000ff"],
-//   INITIAL: false,
-//   SIM_RESOLUTION: 128,
-// };
-
-const TEST_CONFIG = {
+const DEFAULT_CONFIG = {
   SIM_RESOLUTION: 128,
   DYE_RESOLUTION: 1024,
   CAPTURE_RESOLUTION: 512,
-  DENSITY_DISSIPATION: 10,
+  DENSITY_DISSIPATION: 50,
   VELOCITY_DISSIPATION: 0.3,
   PRESSURE: 0.8,
   PRESSURE_ITERATIONS: 10,
   CURL: 30,
   INITIAL: false,
-  SPLAT_AMOUNT: 5,
+  SPLAT_AMOUNT: 1,
   SPLAT_RADIUS: 0.06,
   SPLAT_FORCE: 4000,
   SPLAT_KEY: "Space",
   SHADING: true,
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
-  COLOR_PALETTE: ["#30c4ff"],
   HOVER: true,
-  BACK_COLOR: "#000000",
   TRANSPARENT: false,
   BRIGHTNESS: 0.5,
   BLOOM: true,
@@ -67,6 +60,11 @@ export const FluidCanvasBg = ({
 }: FluidCanvasBgProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const { isTouch } = useTouch();
+
+  const colorsConfig = useMemo(() => getFluidColors(theme), [theme]);
+  const touchConfig = useMemo(() => getFluidTouchOptions(isTouch), [isTouch]);
 
   const passMouseEventToCanvas = useCallback(
     (e: MouseEvent) => passMouseEvent(e, canvasRef),
@@ -75,31 +73,62 @@ export const FluidCanvasBg = ({
 
   useEffect(() => {
     const divElem = divRef.current;
-    if (divElem) {
-      divElem.addEventListener("click", passMouseEventToCanvas);
-      divElem.addEventListener("mousemove", passMouseEventToCanvas);
-      divElem.addEventListener("mousedown", passMouseEventToCanvas);
-      divElem.addEventListener("mouseup", passMouseEventToCanvas);
-      divElem.addEventListener("mouseover", passMouseEventToCanvas);
-      divElem.addEventListener("mouseout", passMouseEventToCanvas);
-    }
 
-    return () => {
+    if (!isTouch) {
       if (divElem) {
-        divElem.removeEventListener("click", passMouseEventToCanvas);
-        divElem.removeEventListener("mousemove", passMouseEventToCanvas);
-        divElem.removeEventListener("mousedown", passMouseEventToCanvas);
-        divElem.removeEventListener("mouseup", passMouseEventToCanvas);
-        divElem.removeEventListener("mouseover", passMouseEventToCanvas);
-        divElem.removeEventListener("mouseout", passMouseEventToCanvas);
+        divElem.addEventListener("click", passMouseEventToCanvas);
+        divElem.addEventListener("mousemove", passMouseEventToCanvas);
+        divElem.addEventListener("mousedown", passMouseEventToCanvas);
+        divElem.addEventListener("mouseup", passMouseEventToCanvas);
+        divElem.addEventListener("mouseover", passMouseEventToCanvas);
+        divElem.addEventListener("mouseout", passMouseEventToCanvas);
       }
-    };
-  }, [passMouseEventToCanvas]);
+
+      return () => {
+        if (divElem) {
+          divElem.removeEventListener("click", passMouseEventToCanvas);
+          divElem.removeEventListener("mousemove", passMouseEventToCanvas);
+          divElem.removeEventListener("mousedown", passMouseEventToCanvas);
+          divElem.removeEventListener("mouseup", passMouseEventToCanvas);
+          divElem.removeEventListener("mouseover", passMouseEventToCanvas);
+          divElem.removeEventListener("mouseout", passMouseEventToCanvas);
+        }
+      };
+    } else {
+      if (canvasRef.current) {
+        webGLFluidEnhanced.config({
+          ...DEFAULT_CONFIG,
+          ...colorsConfig,
+          ...touchConfig,
+        });
+        const interval = setInterval(() => {
+          window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space" }));
+        }, 5000);
+
+        return () => clearInterval(interval);
+      }
+    }
+  }, [passMouseEventToCanvas, isTouch]);
+
   useEffect(() => {
     if (canvasRef.current) {
-      webGLFluidEnhanced.simulation(canvasRef.current, TEST_CONFIG);
+      webGLFluidEnhanced.simulation(canvasRef.current, {
+        ...DEFAULT_CONFIG,
+        ...colorsConfig,
+        ...touchConfig,
+      });
     }
-  }, [canvasRef]);
+  }, [canvasRef, colorsConfig, touchConfig]);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      webGLFluidEnhanced.config({
+        ...DEFAULT_CONFIG,
+        ...colorsConfig,
+        ...touchConfig,
+      });
+    }
+  }, [colorsConfig, touchConfig]);
 
   return (
     <>

@@ -5,6 +5,7 @@ import s from "./Header.module.scss";
 import { useState } from "react";
 import clsx from "clsx";
 import { menuList } from "../model";
+import ThemeToggler from "@/features/ThemeToggle";
 
 export const Header = () => {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
@@ -24,6 +25,7 @@ export const Header = () => {
             </li>
           ))}
         </ul>
+        <ThemeToggler />
         <button
           className={clsx(s.burger, isBurgerOpen && s.burger_open)}
           onClick={() => setIsBurgerOpen((prev) => !prev)}
