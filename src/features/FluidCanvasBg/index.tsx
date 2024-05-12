@@ -108,7 +108,7 @@ export const FluidCanvasBg = ({
         return () => clearInterval(interval);
       }
     }
-  }, [passMouseEventToCanvas, isTouch]);
+  }, [passMouseEventToCanvas, isTouch, colorsConfig, touchConfig]);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -118,7 +118,7 @@ export const FluidCanvasBg = ({
         ...touchConfig,
       });
     }
-  }, [canvasRef, colorsConfig, touchConfig]);
+  }, [canvasRef]);
 
   useEffect(() => {
     if (canvasRef.current) {
