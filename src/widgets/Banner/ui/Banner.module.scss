@@ -7,14 +7,18 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  @include full-height();
 
   @include respond-to("laptop") {
-    padding-top: 0;
-    @include full-height();
+    @include fill-page-scroll();
+    padding-top: 50px;
     flex-direction: row;
     align-items: center;
-    scroll-snap-align: start;
   }
+
+  // @include respond-to("laptopL") {
+  //   scroll-snap-align: start;
+  // }
 }
 
 .title {

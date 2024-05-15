@@ -4,8 +4,7 @@
   @include respond-to("laptop") {
     @include full-height();
     // background-color: rgba(255, 0, 0, 0.3);
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    @include fill-page-scroll();
     display: flex;
     justify-content: center;
     align-items: center;

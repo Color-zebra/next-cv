@@ -7,7 +7,7 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
-  scroll-padding-top: var(--header-heght);
+  scroll-padding-top: var(--header-height);
 
   ::-webkit-scrollbar {
     width: 10px;

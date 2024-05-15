@@ -1,0 +1,46 @@
+.gears {
+  color: var(--primary-color);
+  filter: drop-shadow(0 0 2px var(--bg-color));
+
+  &__gear {
+    position: absolute;
+    top: -3%;
+    left: 0.5%;
+    width: 55%;
+    height: 55%;
+    animation: rotate-1 5s linear infinite;
+
+    &_2 {
+      left: unset;
+      right: 0;
+      top: 0;
+      animation: rotate-2 5s linear infinite;
+    }
+
+    &_3 {
+      left: unset;
+      top: 20%;
+      right: -40%;
+    }
+  }
+}
+
+@keyframes rotate-1 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-2 {
+  0% {
+    transform: rotate(343deg);
+  }
+
+  100% {
+    transform: rotate(-17deg);
+  }
+}

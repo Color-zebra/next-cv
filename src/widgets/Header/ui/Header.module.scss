@@ -5,7 +5,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: var(--header-heght);
+  height: var(--header-height);
   z-index: 10;
   border-bottom: 2px solid var(--primary-color);
   background-color: var(--bg-color);
@@ -88,9 +88,9 @@
 
 .menu {
   position: absolute;
-  top: var(--header-heght);
+  top: var(--header-height);
   left: 0;
-  height: calc(100dvh - var(--header-heght));
+  height: calc(100dvh - var(--header-height));
   width: 100%;
   background-color: var(--bg-color);
   padding: 30px 15px;

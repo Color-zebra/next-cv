@@ -2,6 +2,7 @@
 
 $maxWidth: 1440;
 $minWidth: 320;
+$minHeightForFullPageScroll: 800px;
 
 @mixin adaptiv-value($property, $startSize, $minSize) {
   $addSize: $startSize - $minSize;
@@ -44,5 +45,12 @@ $minWidth: 320;
 }
 
 @mixin full-height() {
-  min-height: calc(100dvh - var(--header-heght));
+  min-height: calc(100dvh - var(--header-height));
+}
+
+@mixin fill-page-scroll() {
+  @media screen and (min-height: $minHeightForFullPageScroll) {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }

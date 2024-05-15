@@ -101,9 +101,10 @@ export const FluidCanvasBg = ({
           ...colorsConfig,
           ...touchConfig,
         });
+        window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space" }));
         const interval = setInterval(() => {
           window.dispatchEvent(new KeyboardEvent("keydown", { code: "Space" }));
-        }, 5000);
+        }, 10000);
 
         return () => clearInterval(interval);
       }
